@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fushanprovider.mapper.RoleInfoMapper">
+    <resultMap id="BaseResultMap" type="com.fushanapi.model.role.RoleInfo">
+        <result column="id" property="id" jdbcType="INTEGER"/>
+        <result column="role_name" property="roleName" jdbcType="VARCHAR"/>
+        <result column="is_super" property="isSuper" jdbcType="INTEGER"/>
+        <result column="des" property="des" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+       id,role_name,is_super,des
+    </sql>
+    <select id="queryByUserId" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select t.* from tb_role_info t right join tb_role_user u on u.role_id = t.id
+        where u.user_id = #{userId,jdbcType=INTEGER}
+    </select>
+    <select id="queryListAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        tb_role_info
+
+    </select>
+</mapper>

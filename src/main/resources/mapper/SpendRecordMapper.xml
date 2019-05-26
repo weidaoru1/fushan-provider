@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fushanprovider.mapper.SpendRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.fushanapi.model.cost.SpendRecord" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="spend_id" property="spendId" jdbcType="INTEGER" />
+    <result column="spend_name" property="spendName" jdbcType="VARCHAR" />
+    <result column="spend_matters" property="spendMatters" jdbcType="VARCHAR" />
+    <result column="amount" property="amount" jdbcType="DOUBLE" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="spend_Time" property="spendTime" jdbcType="TIMESTAMP" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user_name, spend_id, spend_name, spend_matters, amount, type, spend_Time, create_time, 
+    remark
+  </sql>
+  <delete id="deleteBySpendId" parameterType="java.lang.Integer">
+    delete from tb_spend_record where spend_id = #{spendId,jdbcType=INTEGER}
+  </delete>
+  <select id="count" resultType="java.lang.Integer" parameterType="java.util.Map">
+    select count(id) from  tb_spend_record
+    <where>
+      <if test="spendId != null">
+        spend_id = #{spendId,jdbcType=INTEGER}
+      </if>
+    </where>
+  </select>
+
+  <select id="pagedQuery" resultMap="BaseResultMap" parameterType="java.util.Map">
+    select
+    <include refid="Base_Column_List"/>
+    from tb_spend_record
+    <where>
+      <if test="spendId != null">
+        spend_id = #{spendId,jdbcType=INTEGER}
+      </if>
+    </where>
+    order by create_time desc
+    limit #{start,jdbcType=INTEGER},#{end,jdbcType=INTEGER}
+
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_spend_record
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_spend_record
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.fushanapi.model.cost.SpendRecord" >
+    insert into tb_spend_record (id, user_name, spend_id, 
+      spend_name, spend_matters, amount, 
+      type, spend_Time, create_time, 
+      remark)
+    values (#{id,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{spendId,jdbcType=INTEGER}, 
+      #{spendName,jdbcType=VARCHAR}, #{spendMatters,jdbcType=VARCHAR}, #{amount,jdbcType=DOUBLE}, 
+      #{type,jdbcType=INTEGER}, #{spendTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fushanapi.model.cost.SpendRecord" >
+    insert into tb_spend_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="spendId != null" >
+        spend_id,
+      </if>
+      <if test="spendName != null" >
+        spend_name,
+      </if>
+      <if test="spendMatters != null" >
+        spend_matters,
+      </if>
+      <if test="amount != null" >
+        amount,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="spendTime != null" >
+        spend_Time,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="remark != null" >
+        remark
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="spendId != null" >
+        #{spendId,jdbcType=INTEGER},
+      </if>
+      <if test="spendName != null" >
+        #{spendName,jdbcType=VARCHAR},
+      </if>
+      <if test="spendMatters != null" >
+        #{spendMatters,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=DOUBLE},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="spendTime != null" >
+        #{spendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR}
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fushanapi.model.cost.SpendRecord" >
+    update tb_spend_record
+    <set >
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="spendId != null" >
+        spend_id = #{spendId,jdbcType=INTEGER},
+      </if>
+      <if test="spendName != null" >
+        spend_name = #{spendName,jdbcType=VARCHAR},
+      </if>
+      <if test="spendMatters != null" >
+        spend_matters = #{spendMatters,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        amount = #{amount,jdbcType=DOUBLE},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="spendTime != null" >
+        spend_Time = #{spendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR}
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fushanapi.model.cost.SpendRecord" >
+    update tb_spend_record
+    set user_name = #{userName,jdbcType=VARCHAR},
+      spend_id = #{spendId,jdbcType=INTEGER},
+      spend_name = #{spendName,jdbcType=VARCHAR},
+      spend_matters = #{spendMatters,jdbcType=VARCHAR},
+      amount = #{amount,jdbcType=DOUBLE},
+      type = #{type,jdbcType=INTEGER},
+      spend_Time = #{spendTime,jdbcType=TIMESTAMP},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

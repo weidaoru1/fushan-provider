@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fushanprovider.mapper.PaymentRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.fushanapi.model.cost.PaymentRecord" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="payment_id" property="paymentId" jdbcType="INTEGER" />
+    <result column="customer_name" property="customerName" jdbcType="VARCHAR" />
+    <result column="contact" property="contact" jdbcType="VARCHAR" />
+    <result column="payee" property="payee" jdbcType="VARCHAR" />
+    <result column="amount" property="amount" jdbcType="DOUBLE" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="payment_time" property="paymentTime" jdbcType="TIMESTAMP" />
+    <result column="details_des" property="detailsDes" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user_name, payment_id, customer_name, contact, payee, amount, type, create_time, 
+    payment_time, details_des, remark
+  </sql>
+  <delete id="deleteByPaymentId" parameterType="java.lang.Integer">
+    delete from tb_payment_record where payment_id = #{paymentId,jdbcType=INTEGER}
+  </delete>
+  <select id="count" resultType="java.lang.Integer" parameterType="java.util.Map">
+      select count(id) from  tb_payment_record
+    <where>
+      <if test="paymentId != null">
+        payment_id = #{paymentId,jdbcType=INTEGER}
+      </if>
+    </where>
+    </select>
+
+  <select id="pagedQuery" resultMap="BaseResultMap" parameterType="java.util.Map">
+    select
+    <include refid="Base_Column_List"/>
+    from tb_payment_record
+    <where>
+      <if test="paymentId != null">
+        payment_id = #{paymentId,jdbcType=INTEGER}
+      </if>
+    </where>
+    order by create_time desc
+    limit #{start,jdbcType=INTEGER},#{end,jdbcType=INTEGER}
+
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_payment_record
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_payment_record
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.fushanapi.model.cost.PaymentRecord" >
+    insert into tb_payment_record (id, user_name, payment_id, 
+      customer_name, contact, payee, 
+      amount, type, create_time, 
+      payment_time, details_des, remark
+      )
+    values (#{id,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{paymentId,jdbcType=INTEGER}, 
+      #{customerName,jdbcType=VARCHAR}, #{contact,jdbcType=VARCHAR}, #{payee,jdbcType=VARCHAR}, 
+      #{amount,jdbcType=DOUBLE}, #{type,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{paymentTime,jdbcType=TIMESTAMP}, #{detailsDes,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.fushanapi.model.cost.PaymentRecord" >
+    insert into tb_payment_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="paymentId != null" >
+        payment_id,
+      </if>
+      <if test="customerName != null" >
+        customer_name,
+      </if>
+      <if test="contact != null" >
+        contact,
+      </if>
+      <if test="payee != null" >
+        payee,
+      </if>
+      <if test="amount != null" >
+        amount,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="paymentTime != null" >
+        payment_time,
+      </if>
+      <if test="detailsDes != null" >
+        details_des,
+      </if>
+      <if test="remark != null" >
+        remark
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentId != null" >
+        #{paymentId,jdbcType=INTEGER},
+      </if>
+      <if test="customerName != null" >
+        #{customerName,jdbcType=VARCHAR},
+      </if>
+      <if test="contact != null" >
+        #{contact,jdbcType=VARCHAR},
+      </if>
+      <if test="payee != null" >
+        #{payee,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=DOUBLE},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="paymentTime != null" >
+        #{paymentTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="detailsDes != null" >
+        #{detailsDes,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR}
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fushanapi.model.cost.PaymentRecord" >
+    update tb_payment_record
+    <set >
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentId != null" >
+        payment_id = #{paymentId,jdbcType=INTEGER},
+      </if>
+      <if test="customerName != null" >
+        customer_name = #{customerName,jdbcType=VARCHAR},
+      </if>
+      <if test="contact != null" >
+        contact = #{contact,jdbcType=VARCHAR},
+      </if>
+      <if test="payee != null" >
+        payee = #{payee,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        amount = #{amount,jdbcType=DOUBLE},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="paymentTime != null" >
+        payment_time = #{paymentTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="detailsDes != null" >
+        details_des = #{detailsDes,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR}
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fushanapi.model.cost.PaymentRecord" >
+    update tb_payment_record
+    set user_name = #{userName,jdbcType=VARCHAR},
+      payment_id = #{paymentId,jdbcType=INTEGER},
+      customer_name = #{customerName,jdbcType=VARCHAR},
+      contact = #{contact,jdbcType=VARCHAR},
+      payee = #{payee,jdbcType=VARCHAR},
+      amount = #{amount,jdbcType=DOUBLE},
+      type = #{type,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      payment_time = #{paymentTime,jdbcType=TIMESTAMP},
+      details_des = #{detailsDes,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
